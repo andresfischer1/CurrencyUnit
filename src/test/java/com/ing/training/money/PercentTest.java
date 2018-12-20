@@ -1,9 +1,9 @@
 package com.ing.training.money;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 import java.math.BigDecimal;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class PercentTest {
@@ -16,7 +16,7 @@ public class PercentTest {
         Percent percent = new Percent("1,25%");
 
         // assert
-        Assert.assertEquals(new BigDecimal("0.01250"), percent.getAsBigDecimal());
+        assertEquals(new BigDecimal("0.01250"), percent.getAsBigDecimal());
     }
 
     @Test
@@ -27,7 +27,7 @@ public class PercentTest {
         Percent percent = new Percent("1%");
 
         //arrange
-        Assert.assertEquals(new BigDecimal("0.01000"), percent.getAsBigDecimal());
+        assertEquals(new BigDecimal("0.01000"), percent.getAsBigDecimal());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PercentTest {
         Percent percent = new Percent("1,3789123%");
 
         //arrange
-        Assert.assertEquals(new BigDecimal("0.01379"), percent.getAsBigDecimal());
+        assertEquals(new BigDecimal("0.01379"), percent.getAsBigDecimal());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class PercentTest {
         Percent percent = new Percent(new BigDecimal("2"));
 
         //arrange
-        Assert.assertEquals(new BigDecimal("2.00000"), percent.getAsBigDecimal());
+        assertEquals(new BigDecimal("2.00000"), percent.getAsBigDecimal());
         assertEquals("200,00%", percent.toString());
     }
 
@@ -72,7 +72,7 @@ public class PercentTest {
         Percent percent = new Percent(new BigDecimal("0.024567"));
 
         //arrange
-        Assert.assertEquals(new BigDecimal("0.02457"), percent.getAsBigDecimal());
+        assertEquals(new BigDecimal("0.02457"), percent.getAsBigDecimal());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class PercentTest {
         Percent percent = new Percent("2%");
 
         //arrange
-        Assert.assertEquals("2,00%", percent.toString());
+        assertEquals("2,00%", percent.toString());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class PercentTest {
         Percent percent = new Percent("150%");
 
         //arrange
-        Assert.assertEquals("150,00%", percent.toString());
+        assertEquals("150,00%", percent.toString());
     }
 
     @Test
@@ -118,6 +118,20 @@ public class PercentTest {
 
         // assert
         assertEquals(new BigDecimal("0.0125"), percent);
+    }
+
+    @Test
+    public void one_percent_is_equals_one_percent_but_not_same() throws Exception {
+        // arrange
+        String percentAsString = "1%";
+
+        // act
+        BigDecimal percent1 = Percent.parsePercent(percentAsString);
+        BigDecimal percent2 = Percent.parsePercent(percentAsString);
+
+        // assert
+        assertEquals(percent1, percent2);
+        assertNotSame(percent1, percent2);
     }
 
 }

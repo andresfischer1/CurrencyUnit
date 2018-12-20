@@ -108,7 +108,7 @@ public class CurrencyUnit {
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, currency);
     }
 
     public CurrencyUnit multiply(Percent percent) {

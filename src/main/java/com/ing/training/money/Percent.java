@@ -18,7 +18,7 @@ public class Percent {
 
     public Percent(BigDecimal percentAsBigDecimal) {
         this.percentAsBigDecimal = percentAsBigDecimal.
-                setScale(5, BigDecimal.ROUND_HALF_UP);
+                setScale(5, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal parsePercent(String percentAsText) throws ParseException {
