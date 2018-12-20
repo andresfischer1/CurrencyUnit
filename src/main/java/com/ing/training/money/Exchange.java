@@ -14,4 +14,15 @@ public class Exchange {
         this.exchangeRate = exchangeRate;
     }
 
+    public Currency getFromCurrency() {
+        return fromCurrency;
+    }
+
+    public Currency getToCurrency() {
+        return toCurrency;
+    }
+
+    public ExchangeRate getExchangeRate() {
+        return exchangeRate;
+    }
 }

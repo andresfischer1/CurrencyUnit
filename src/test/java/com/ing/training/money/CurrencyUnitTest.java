@@ -1,6 +1,7 @@
 package com.ing.training.money;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -107,6 +108,16 @@ public class CurrencyUnitTest {
         assertEquals(oneEuro, anotherOneEuro);
     }
 
+    @Test
+    public void currencyUnit_should_consider_currency_in_equals() throws Exception {
+        // arrange
+        CurrencyUnit oneDollar = new CurrencyUnit("1 $");
+        CurrencyUnit oneEuro = new CurrencyUnit("1 €");
+
+        // act + assert
+        assertNotEquals(oneDollar, oneEuro);
+        assertNotEquals(oneDollar.hashCode(), oneEuro.hashCode());
+    }
 
     @Test
     public void currencyUnit_with_euro_symbol_should_return_the_correct_currency() throws Exception {

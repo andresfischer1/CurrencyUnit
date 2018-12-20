@@ -14,8 +14,8 @@ public class CurrencyUnit {
     private static final String READ_PATTERN = "#.##";
     private static final Pattern PATTERN = Pattern.compile("((\\d|\\.)*\\d(,)?(\\d+)*)( )*(€|\\$|\\w{3})");
 
-    private BigDecimal value;
-    private Currency currency;
+    private final BigDecimal value;
+    private final Currency currency;
 
     public CurrencyUnit(final String currencyUnitAsText) throws Exception {
         currency = extractCurrency(currencyUnitAsText);
@@ -23,9 +23,12 @@ public class CurrencyUnit {
     }
 
     public CurrencyUnit(final BigDecimal currencyUnit) {
-        currency = Currency.getInstance("EUR");
-        value = currencyUnit
-                .setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
+        this(currencyUnit, Currency.getInstance("EUR"));
+    }
+
+    public CurrencyUnit(BigDecimal value, Currency currency) {
+        this.currency = currency;
+        this.value = value.setScale(this.currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);;
     }
 
     private BigDecimal parseCurrencyUnit(String currencyUnitAsText) throws ParseException {
@@ -67,11 +70,12 @@ public class CurrencyUnit {
     }
 
     public BigDecimal getValue() {
-            return value;
+        return value;
     }
 
     public Currency getCurrency() {
-            return currency; }
+        return currency;
+    }
 
     private String buildWritePattern() {
         String writePattern = "#,###";
@@ -99,22 +103,26 @@ public class CurrencyUnit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CurrencyUnit that = (CurrencyUnit) o;
-        return Objects.equals(value, that.value);
+        return Objects.equals(value, that.value) && Objects.equals(currency, that.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(value, currency);
     }
 
     public CurrencyUnit multiply(Percent percent) {
-        BigDecimal currencyUnit = value.multiply(percent.getAsBigDecimal())
-                .setScale(2, RoundingMode.HALF_UP);
-        return new CurrencyUnit(currencyUnit);
+        BigDecimal currencyUnit = value.multiply(percent.getAsBigDecimal());
+        return new CurrencyUnit(currencyUnit, currency);
     }
 
-    public CurrencyUnit exchangeTo(Exchange exchange) {
-        return null;
+    public CurrencyUnit exchangeTo(Exchange exchange) throws Exception {
+        if (!currency.equals(exchange.getFromCurrency())) {
+            throw new Exception("Währungsbetrag ist in " + currency + ", aber Wechselkurs in " + exchange.getFromCurrency());
+        }
+        Currency newCurreny = exchange.getToCurrency();
+        BigDecimal newValue = value.multiply(exchange.getExchangeRate().getValue());
+        return new CurrencyUnit(newValue, newCurreny);
     }
 
 }
