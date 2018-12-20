@@ -1,4 +1,4 @@
-package com.ing.training.math;
+package com.ing.training.money;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

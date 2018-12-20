@@ -1,4 +1,4 @@
-package com.ing.training.math;
+package com.ing.training.money;
 
 public class WrongCurrencyException extends RuntimeException {
 

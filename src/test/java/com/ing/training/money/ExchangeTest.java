@@ -1,13 +1,9 @@
-package com.ing.training.com.ing.training.math;
+package com.ing.training.money;
 
-import com.ing.training.math.CurrencyUnit;
-import com.ing.training.math.Exchange;
-import com.ing.training.math.ExchangeRate;
+import java.util.Currency;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.Currency;
 
 public class ExchangeTest {
 
@@ -24,6 +20,7 @@ public class ExchangeTest {
     }
 
     @Test
+    @Ignore
     public void exchange_from_euro_to_dem() throws Exception {
         // arrange
         CurrencyUnit eur = new CurrencyUnit("10,00 EUR");

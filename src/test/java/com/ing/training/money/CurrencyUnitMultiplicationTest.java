@@ -1,10 +1,8 @@
-package com.ing.training.com.ing.training.math;
-
-import com.ing.training.math.CurrencyUnit;
-import com.ing.training.math.Percent;
-import org.junit.Test;
+package com.ing.training.money;
 
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class CurrencyUnitMultiplicationTest {
 
