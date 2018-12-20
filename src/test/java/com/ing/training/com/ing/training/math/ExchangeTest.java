@@ -11,20 +11,19 @@ import java.util.Currency;
 
 public class ExchangeTest {
 
-    private final String euro_dm_wechselkurs = "1,9558";
+    private final String EUR_DEM_RATE = "1,9558";
 
     @Test
     public void exchange_class_and_dependencies_should_exist() {
         // arrange
 
         // act
-        new Exchange(Currency.getInstance("EUR"), Currency.getInstance("DEM"), new ExchangeRate(euro_dm_wechselkurs));
+        new Exchange(Currency.getInstance("EUR"), Currency.getInstance("DEM"), new ExchangeRate(EUR_DEM_RATE));
 
         // assert
     }
 
     @Test
-    @Ignore
     public void exchange_from_euro_to_dem() throws Exception {
         // arrange
         CurrencyUnit eur = new CurrencyUnit("10,00 EUR");
@@ -32,7 +31,7 @@ public class ExchangeTest {
 
         Currency fromCurrency = Currency.getInstance("EUR");
         Currency toCurrency = Currency.getInstance("DEM");
-        ExchangeRate exchangeRate = new ExchangeRate(euro_dm_wechselkurs);
+        ExchangeRate exchangeRate = new ExchangeRate(EUR_DEM_RATE);
         Exchange exchange = new Exchange(fromCurrency, toCurrency, exchangeRate);
 
         // act

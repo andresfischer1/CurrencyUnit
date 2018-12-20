@@ -2,6 +2,7 @@ package com.ing.training.com.ing.training.math;
 
 import com.ing.training.math.CurrencyUnit;
 import com.ing.training.math.Percent;
+import com.ing.training.math.WrongCurrencyException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -110,31 +111,8 @@ public class CurrencyUnitTest {
         assertEquals(oneEuro, anotherOneEuro);
     }
 
-    @Test
-    public void currencyUnit_should_have_a_multiply_method() throws Exception {
-        // arrange
-        CurrencyUnit hundred_euros = new CurrencyUnit("100€");
-        Percent ten_percent = new Percent("10%");
 
-        // act
-        CurrencyUnit ten_euros = hundred_euros.multiply(ten_percent);
-
-        // assert
-        assertEquals(new CurrencyUnit("10€"), ten_euros);
-    }
-
-    @Test
-    public void currencyUnit_should_have_a_multiply_method_thats_rounds() throws Exception {
-        // arrange
-        CurrencyUnit mass = new CurrencyUnit("100,47€");
-        Percent percent = new Percent("12,37%");
-
-        // act
-        CurrencyUnit result = mass.multiply(percent);
-
-        // assert
-        assertEquals(new CurrencyUnit("12,43€"), result);
-    }
+}
 
     @Test
     public void currencyUnit_with_euro_symbol_should_return_the_correct_currency() throws Exception {
@@ -188,6 +166,19 @@ public class CurrencyUnitTest {
     }
 
     @Test
+    public void currencyUnit_without_fraction_should_not_work() throws Exception {
+        // arrange
+
+        // act
+        CurrencyUnit currencyUnit = new CurrencyUnit("0,01 JPY");
+
+        // assert
+        assertEquals(new BigDecimal("0"), currencyUnit.getValue());
+        assertEquals(Currency.getInstance("JPY"), currencyUnit.getCurrency());
+        assertEquals("0 JPY", currencyUnit.toString());
+    }
+
+    @Test(expected = WrongCurrencyException.class)
     public void currencyUnit_should_note_work_with_ABC() throws Exception {
         // arrange
 

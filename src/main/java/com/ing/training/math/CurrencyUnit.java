@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.math.BigDecimal.ROUND_HALF_UP;
-
 public class CurrencyUnit {
 
     private static final String READ_PATTERN = "#.##";
@@ -27,7 +25,7 @@ public class CurrencyUnit {
     public CurrencyUnit(final BigDecimal currencyUnit) {
         currency = Currency.getInstance("EUR");
         value = currencyUnit
-                .setScale(currency.getDefaultFractionDigits(), ROUND_HALF_UP);
+                .setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
     }
 
     private BigDecimal parseCurrencyUnit(String currencyUnitAsText) throws ParseException {
@@ -39,17 +37,23 @@ public class CurrencyUnit {
     private BigDecimal extractValue(String currencyUnitAsText) throws Exception {
         final Matcher matcher = PATTERN.matcher(currencyUnitAsText);
         if (matcher.find()) {
-            return parseCurrencyUnit(matcher.group(1)).setScale(currency.getDefaultFractionDigits(), ROUND_HALF_UP);
+            return parseCurrencyUnit(matcher.group(1)).setScale(currency.getDefaultFractionDigits(), RoundingMode.HALF_UP);
         }
         throw new Exception("Keine gültige Zahl!");
     }
 
-    private Currency extractCurrency(String currencyUnitAsText) throws Exception {
+    private Currency extractCurrency(String currencyUnitAsText) {
         final Matcher matcher = PATTERN.matcher(currencyUnitAsText);
         if (matcher.find()) {
-            return Currency.getInstance(replaceCurrencySymbolByIsoCode(matcher.group(6)));
+            String currencyCode = "";
+            try {
+                currencyCode = replaceCurrencySymbolByIsoCode(matcher.group(6));
+                return Currency.getInstance(currencyCode);
+            } catch (IllegalArgumentException e) {
+                throw new WrongCurrencyException("Die Währung " + currencyCode + " ist ungültig!", e);
+            }
         }
-        throw new Exception("Keine gültige Währung!");
+        return null;
     }
 
     private String replaceCurrencySymbolByIsoCode(String currencySymbol) {
@@ -63,12 +67,11 @@ public class CurrencyUnit {
     }
 
     public BigDecimal getValue() {
-        return value;
+            return value;
     }
 
     public Currency getCurrency() {
-        return currency;
-    }
+            return currency; }
 
     private String buildWritePattern() {
         String writePattern = "#,###";
@@ -104,7 +107,7 @@ public class CurrencyUnit {
         return Objects.hash(value);
     }
 
-    public CurrencyUnit multiply(Percent percent) throws ParseException {
+    public CurrencyUnit multiply(Percent percent) {
         BigDecimal currencyUnit = value.multiply(percent.getAsBigDecimal())
                 .setScale(2, RoundingMode.HALF_UP);
         return new CurrencyUnit(currencyUnit);
