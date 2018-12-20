@@ -1,14 +1,10 @@
-package com.ing.training.com.ing.training.math;
+package com.ing.training.money;
 
-import com.ing.training.math.CurrencyUnit;
-import com.ing.training.math.Percent;
-import com.ing.training.math.WrongCurrencyException;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class CurrencyUnitTest {
 
@@ -111,8 +107,6 @@ public class CurrencyUnitTest {
         assertEquals(oneEuro, anotherOneEuro);
     }
 
-
-}
 
     @Test
     public void currencyUnit_with_euro_symbol_should_return_the_correct_currency() throws Exception {
