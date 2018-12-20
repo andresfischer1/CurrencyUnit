@@ -1,6 +1,7 @@
 package com.ing.training.money;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 
 import java.math.BigDecimal;
@@ -121,16 +122,30 @@ public class PercentTest {
     }
 
     @Test
+    public void one_percent_is_not_equals_two_percent() throws Exception {
+        // arrange
+        Percent percent1 = new Percent("1%");
+        Percent percent2 = new Percent("2%");
+
+        // act
+
+        // assert
+        assertNotEquals(percent1, percent2);
+        assertNotEquals(percent1.hashCode(), percent2.hashCode());
+    }
+
+    @Test
     public void one_percent_is_equals_one_percent_but_not_same() throws Exception {
         // arrange
         String percentAsString = "1%";
 
         // act
-        BigDecimal percent1 = Percent.parsePercent(percentAsString);
-        BigDecimal percent2 = Percent.parsePercent(percentAsString);
+        Percent percent1 = new Percent(percentAsString);
+        Percent percent2 = new Percent(percentAsString);
 
         // assert
         assertEquals(percent1, percent2);
+        assertEquals(percent1.hashCode(), percent2.hashCode());
         assertNotSame(percent1, percent2);
     }
 
