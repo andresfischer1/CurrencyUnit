@@ -31,4 +31,18 @@ public class CurrencyUnitMultiplicationTest {
         // assert
         assertEquals(new CurrencyUnit("12,43€"), result);
     }
+
+    @Test
+    public void currencyUnitMultiplicationTest_should_work_with_other_currencies() throws Exception {
+        // arrange
+        CurrencyUnit mass = new CurrencyUnit("100,47 $");
+        Percent percent = new Percent("12,37%");
+
+        // act
+        CurrencyUnit result = mass.multiply(percent);
+
+        // assert
+        assertEquals(new CurrencyUnit("12,43 $"), result);
+    }
+
 }
